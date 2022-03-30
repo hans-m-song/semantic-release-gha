@@ -1,4 +1,7 @@
-branches: master
+branches:
+  - name: master
+  - name: next
+    prerelease: true
 
 tagFormat: release/${version}
 
