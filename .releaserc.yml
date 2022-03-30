@@ -1,0 +1,9 @@
+branches: main
+
+tagFormat: release/${version}
+
+preset: eslint
+
+plugins:
+  - "@semantic-release/commit-analyzer"
+  - "@semantic-release/release-notes-generator"
