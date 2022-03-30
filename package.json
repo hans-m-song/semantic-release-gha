@@ -1,0 +1,11 @@
+{
+  "name": "semantic-release-gha",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:hans-m-song/semantic-release-gha.git",
+  "author": "Hans Song <hans.m.song@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "semantic-release": "^19.0.2"
+  }
+}
