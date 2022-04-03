@@ -19,10 +19,10 @@ jobs:
       matrix:
         runtime:
           - node
+          # TODO
+          # - go
 
     steps:
-      - uses: actions/checkout@v3
-
       - uses: docker/login-action@v1
         with:
           registry: public.ecr.aws
@@ -32,7 +32,10 @@ jobs:
           # this seems to be the only endpoint available for ECR?
           AWS_REGION: us-east-1
 
-      - uses: docker/build-push-action@v2
-        with:
-          push: true
-          tags: public.ecr.aws/t4g8t3e5/gha-runner:${{ matrix.runtime }}
+      - uses: actions/checkout@v3
+
+      - run: |
+          docker build -t $IMAGE ./runners/${{ matrix.runtime }}
+          docker push $IMAGE
+        env:
+          IMAGE: public.ecr.aws/t4g8t3e5/gha-runner-${{ matrix.runtime }}:latest
