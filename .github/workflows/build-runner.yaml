@@ -23,17 +23,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: aws-actions/configure-aws-credentials@v1
+      - uses: docker/login-action@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ECR_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_ECR_SECRET_ACCESS_KEY }}
-          aws-region: ap-southeast-2
+          registry: public.ecr.aws
+          username: ${{ secrets.AWS_ECR_ACCESS_KEY_ID }}
+          password: ${{ secrets.AWS_ECR_SECRET_ACCESS_KEY }}
+        env:
+          # this seems to be the only endpoint available for ECR?
+          AWS_REGION: us-east-1
 
-      - uses: aws-actions/amazon-ecr-login@v1
-        id: login-ecr
-
-      - env:
-          IMAGE: ${{ steps.login-ecr.outputs.registry }}/gha-runner:${{ matrix.runtime }}
-        run: |
-          docker build -t $IMAGE .
-          docker push $IMAGE
+      - uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: public.ecr.aws/t4g8t3e5/gha-runner:${{ matrix.runtime }}
