@@ -1,2 +1,0 @@
-FROM summerwind/actions-runner
-
