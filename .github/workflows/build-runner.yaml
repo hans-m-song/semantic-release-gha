@@ -8,6 +8,7 @@ on:
       - master
     paths:
       - ./runners/**/*
+      - ./.github/workflows/build-runner.yaml
 
 jobs:
   build:
