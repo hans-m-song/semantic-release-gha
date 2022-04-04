@@ -7,7 +7,7 @@ RUN sudo apt-get update \
   libc6-dev \
   make \
   pkg-config \
-  && sudo rm -rf /var/lib/apt/lists
+  && sudo rm -rf /var/lib/apt/lists/*
 
 COPY --from=golang:1.17 /usr/local/go/ /usr/local/go/
 

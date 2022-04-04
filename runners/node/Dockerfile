@@ -12,7 +12,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash - \
   libatomic1 \
   build-essential \
   nodejs \
-  && sudo rm -rf /var/lib/apt/lists
+  && sudo rm -rf /var/lib/apt/lists/*
 
 WORKDIR /home/runner
 ENV PATH=/home/runner/.npm-global/bin:${PATH}
