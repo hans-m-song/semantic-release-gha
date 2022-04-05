@@ -10,4 +10,4 @@ preset: eslint
 plugins:
   - "@semantic-release/commit-analyzer"
   - "@semantic-release/release-notes-generator"
-  - ./plugins/changelog
+  - ./plugins/raw-changelog

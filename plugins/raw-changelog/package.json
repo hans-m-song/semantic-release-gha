@@ -1,0 +1,4 @@
+{
+  "name": "semantic-release-plugin-raw-changelog",
+  "main": "index.js"
+}
