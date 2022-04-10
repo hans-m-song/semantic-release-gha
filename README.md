@@ -6,3 +6,13 @@
 POC repo for using semantic-release with github actions.
 
 Includes some example workflows and some plugins for semantic-release.
+
+## gha-runner
+
+Available at: public.ecr.aws/t4g8t3e5/gha-runner
+
+Runner with:
+
+- NVM with Node.js 14.x (with yarn and a few other packages installed globally)
+- Golang 1.17.x
+- AWS CLI v2
