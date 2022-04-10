@@ -30,6 +30,6 @@ jobs:
       - env:
           IMAGE: public.ecr.aws/t4g8t3e5/gha-runner:latest
         run: |
-          # docker pull $IMAGE
+          docker pull $IMAGE
           docker build --cache-from $IMAGE -t $IMAGE ./runner
           docker push $IMAGE
