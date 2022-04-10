@@ -7,8 +7,8 @@ on:
     branches:
       - master
     paths:
-      - ./runner/**
-      - ./.github/workflows/build-runner.yaml
+      - runner/**
+      - .github/workflows/build-runner.yaml
 
 jobs:
   build:
