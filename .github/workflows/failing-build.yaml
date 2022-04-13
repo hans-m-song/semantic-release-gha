@@ -1,0 +1,14 @@
+name: Purposefully failing build
+
+on:
+  push:
+    branches:
+      - test/failing-build
+
+jobs:
+  failing-job:
+    name: Failing job
+    runs-on: self-hosted
+    steps:
+      - run: |
+          false
