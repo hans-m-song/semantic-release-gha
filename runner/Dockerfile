@@ -37,7 +37,8 @@ ENV GO_VERSION 1.18.3
 ENV PATH /usr/local/go/bin:${PATH}
 RUN curl -Lf "https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz" -o "go.tar.gz" \
   && sudo tar -C /usr/local -xzf go.tar.gz \
-  && rm -f go.tar.gz
+  && rm -f go.tar.gz \
+  && echo "PATH=/usr/local/go/bin:$$PATH"
 
 # aws cli
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscli.zip" \
