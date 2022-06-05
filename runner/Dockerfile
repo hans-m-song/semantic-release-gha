@@ -25,7 +25,7 @@ RUN sudo mkdir -p ${NVM_DIR} \
   && nvm install ${NODE_VERSION} \
   && nvm use --delete-prefix ${NODE_VERSION} \
   && echo "source ${NVM_DIR}/nvm.sh" >> ~/.bashrc \
-  && npm install -g \
+  && sudo -E npm install -g \
   lerna \
   semantic-release \
   ts-node \
