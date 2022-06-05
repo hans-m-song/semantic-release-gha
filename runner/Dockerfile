@@ -40,6 +40,6 @@ RUN curl -Lf "https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz" -o "go.tar.g
 
 # aws cli
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscli.zip" \
-  && unzip awscli.zip \
+  && unzip -q awscli.zip \
   && sudo ./aws/install \
   && rm -rf aws awscli.zip
