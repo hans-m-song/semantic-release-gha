@@ -42,6 +42,5 @@ RUN sudo mkdir -p ${NVM_DIR} \
   semantic-release \
   ts-node \
   typescript \
-  yarn
-
-RUN echo PATH=/usr/local/go/bin:/usr/local/nvm/versions/node/$(nvm current)/bin:$PATH | sudo tee --append /etc/environment
+  yarn \
+  && echo PATH=/usr/local/go/bin:/usr/local/nvm/versions/node/$(nvm current)/bin:$PATH | sudo tee --append /etc/environment
