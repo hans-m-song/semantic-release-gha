@@ -1,6 +1,6 @@
 FROM --platform=linux/amd64 summerwind/actions-runner:latest 
 
-SHELL ["/bin/bash", "--login", "-c"]
+# SHELL ["/bin/bash", "--login", "-c"]
 WORKDIR ${HOME}
 
 RUN sudo apt-get update \
@@ -16,29 +16,11 @@ RUN sudo apt-get update \
   wget \
   xz-utils
 
-# node
-ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION v16
-RUN sudo mkdir -p ${NVM_DIR} \
-  && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | sudo -E bash \
-  && source ${NVM_DIR}/nvm.sh \
-  && nvm install ${NODE_VERSION} \
-  && nvm use --delete-prefix ${NODE_VERSION} \
-  && echo "source ${NVM_DIR}/nvm.sh" >> ~/.bashrc \
-  && sudo -E npm install -g \
-  lerna \
-  semantic-release \
-  ts-node \
-  typescript \
-  yarn
-
 # go
 ENV GO_VERSION 1.18.3
-ENV PATH /usr/local/go/bin:${PATH}
 RUN curl -Lf "https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz" -o "go.tar.gz" \
   && sudo tar -C /usr/local -xzf go.tar.gz \
-  && rm -f go.tar.gz \
-  && echo "PATH=/usr/local/go/bin:$$PATH >> ~/.bashrc"
+  && rm -f go.tar.gz
 
 # aws cli
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscli.zip" \
@@ -46,5 +28,20 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscli.z
   && sudo ./aws/install \
   && rm -rf aws awscli.zip
 
-RUN echo PATH=/usr/local/go/bin:$$PATH >> /etc/environment \
-  && echo PATH=/usr/local/nvm/versions/node/v14.19.1/bin:$$PATH >> /etc/environment
+# node
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION v16
+RUN sudo mkdir -p ${NVM_DIR} \
+  && sudo chown runner ${NVM_DIR} \
+  && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
+  && . ${NVM_DIR}/nvm.sh \
+  && nvm install ${NODE_VERSION} \
+  && nvm use --delete-prefix ${NODE_VERSION} \
+  && npm install -g \
+  lerna \
+  semantic-release \
+  ts-node \
+  typescript \
+  yarn
+
+RUN echo PATH=/usr/local/go/bin:/usr/local/nvm/versions/node/$(nvm current)/bin:$PATH | sudo tee --append /etc/environment
