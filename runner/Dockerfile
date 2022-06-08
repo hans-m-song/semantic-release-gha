@@ -45,3 +45,6 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscli.z
   && unzip -q awscli.zip \
   && sudo ./aws/install \
   && rm -rf aws awscli.zip
+
+RUN echo PATH=/usr/local/go/bin:$$PATH >> /etc/environment \
+  && echo PATH=/usr/local/nvm/versions/node/v14.19.1/bin:$$PATH >> /etc/environment
