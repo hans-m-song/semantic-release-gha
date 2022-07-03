@@ -3,12 +3,14 @@ FROM --platform=linux/amd64 summerwind/actions-runner:latest
 # SHELL ["/bin/bash", "--login", "-c"]
 WORKDIR ${HOME}
 
-RUN sudo apt-get update \
-  && sudo apt-get install -y --no-install-recommends \
+RUN sudo add-apt-repository ppa:git-core/ppa -y \
+  && sudo apt-get update \
+  && sudo apt-get install -y \
   apt-transport-https \
   build-essential \
   ca-certificates \
   curl \
+  git \
   groff \
   jq \
   less \
