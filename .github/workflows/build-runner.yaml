@@ -27,38 +27,25 @@ jobs:
 
       - uses: actions/checkout@v3
 
-      - env:
+      - name: Build image
+        env:
           IMAGE: public.ecr.aws/t4g8t3e5/gha-runner:latest
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ECR_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_ECR_SECRET_ACCESS_KEY }}
         run: |
-          docker pull $IMAGE
-          docker build --cache-from $IMAGE -t $IMAGE ./runner
-          docker push $IMAGE
+          docker run --rm \
+            -v $(pwd):/workspace \
+            -e AWS_ACCESS_KEY \
+            -e AWS_SECRET_ACCESS_KEY \
+            -e AWS_SDK_LOAD_CONFIG=true \
+            gcr.io/kaniko-project/executor:debug \
+              --cache \
+              --destination=public.ecr.aws/t4g8t3e5/huisheng:latest \
+              --reproducible \
+              --target=runtime
 
-  cleanup:
-    name: Cleanup
-    runs-on: self-hosted
-    needs: build
-
-    steps:
-      - uses: aws-actions/configure-aws-credentials@v1
+      - uses: hans-m-song/actions/prune-ecr-repository@master
         with:
-          aws-region: us-east-1
           aws-access-key-id: ${{ secrets.AWS_ECR_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_ECR_SECRET_ACCESS_KEY }}
-
-      - env:
-          AWS_REGION: us-east-1
-          REPO_NAME: gha-runner
-        run: |
-          # list images
-          IMAGES=$( aws ecr-public describe-images --repository-name $REPO_NAME )
-          # filter by untagged
-          IMAGES_TO_REMOVE=$( echo $IMAGES | jq '.imageDetails | map(select(.imageTags | not)) | map({imageDigest: .imageDigest})' )
-          SHOULD_DELETE=$(echo $IMAGES_TO_REMOVE | jq 'length > 0')
-          [ $SHOULD_DELETE == "false" ] || exit 0
-          # delete
-          RESULT=$( aws ecr-public batch-delete-image --repository-name $REPO_NAME --image-ids $IMAGES_TO_REMOVE )
-          # check for failures
-          FAILED=$( echo $RESULT | '.failures | length > 0' )
-          echo $RESULT
-          [ $FAILED == "true" ] || exit 1
+          repository-name: huisheng
