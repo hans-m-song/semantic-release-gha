@@ -34,15 +34,14 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_ECR_SECRET_ACCESS_KEY }}
         run: |
           docker run --rm \
-            -v $(pwd):/workspace \
+            -v $(pwd)/runner:/workspace \
             -e AWS_ACCESS_KEY \
             -e AWS_SECRET_ACCESS_KEY \
             -e AWS_SDK_LOAD_CONFIG=true \
             gcr.io/kaniko-project/executor:debug \
               --cache \
               --destination=public.ecr.aws/t4g8t3e5/huisheng:latest \
-              --reproducible \
-              --target=runtime
+              --reproducible
 
       - uses: hans-m-song/actions/prune-ecr-repository@master
         with:
