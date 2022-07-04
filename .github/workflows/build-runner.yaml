@@ -40,7 +40,7 @@ jobs:
             -e AWS_SDK_LOAD_CONFIG=true \
             gcr.io/kaniko-project/executor:debug \
               --cache \
-              --destination=public.ecr.aws/t4g8t3e5/huisheng:latest \
+              --destination=${{ env.IMAGE }} \
               --reproducible
 
       - uses: hans-m-song/actions/prune-ecr-repository@master
